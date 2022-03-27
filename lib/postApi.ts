@@ -17,7 +17,7 @@ type FieldsType =
     | "ogImage"
     | "coverImage";
 
-type PostType = {
+export type PostType = {
     slug: string;
     title: string;
     date: Date;
