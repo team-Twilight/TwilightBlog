@@ -1,11 +1,12 @@
 import React from "react";
-import markdownToHtml from "../../lib/markdownToHtml";
+import Link from "next/link";
+import markdownToHtml from "../../../lib/markdownToHtml";
 import {
     getAllPosts,
     getPostSlugs,
     postsDirectory,
     PostType,
-} from "../../lib/postApi";
+} from "../../../lib/postApi";
 
 type PostIndexProps = {
     posts: PostType[];
@@ -15,7 +16,11 @@ const Index: React.FC<PostIndexProps> = ({ posts }) => {
         <div>
             <h1>this is index of test dir</h1>
             {posts.map((post, idx) => {
-                return <h3 key={idx}>{post.title}</h3>;
+                return (
+                    <Link href={`/test/post/${post.slug}`} key={idx} passHref>
+                        <h3>{post.title}</h3>
+                    </Link>
+                );
             })}
         </div>
     );
