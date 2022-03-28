@@ -8,7 +8,7 @@ export function getPostSlugs() {
     return fs.readdirSync(postsDirectory);
 }
 
-type FieldsType =
+type PostFieldsType =
     | "slug"
     | "title"
     | "date"
@@ -29,7 +29,7 @@ export type PostType = {
 
 export function getPostBySlug(
     slug: string,
-    fields: FieldsType[] = []
+    fields: PostFieldsType[] = []
 ): PostType {
     // .mdx 제거
     const realSlug = slug.replace(/\.mdx$/, "");
@@ -66,7 +66,7 @@ export function getPostBySlug(
     return items;
 }
 
-export function getAllPosts(fields: FieldsType[] = []) {
+export function getAllPosts(fields: PostFieldsType[] = []) {
     const slugs = getPostSlugs();
     const posts = slugs
         .map((slug) => getPostBySlug(slug, fields))
