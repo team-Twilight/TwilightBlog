@@ -8,7 +8,7 @@ export function getPostSlugs() {
     return fs.readdirSync(postsDirectory);
 }
 
-type PostFieldsType =
+export type PostFieldsType =
     | "slug"
     | "title"
     | "date"
