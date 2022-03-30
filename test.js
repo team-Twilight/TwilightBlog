@@ -25,17 +25,17 @@ console.log(str.replace(/\.mdx$/, ""));
 //     ]
 //   }
 
-let data = {
-    a: "aaa",
-    b: "bbb",
-    c: "ccc",
-    d: "ddd",
-};
-let b = "b2b2";
+// let data = {
+//     a: "aaa",
+//     b: "bbb",
+//     c: "ccc",
+//     d: "ddd",
+// };
+// let b = "b2b2";
 
-let data1 = {
-    ...data,
-    b,
-};
+// let data1 = {
+//     ...data,
+//     b,
+// };
 
-console.log(data1);
+// console.log(data1);

@@ -14,12 +14,15 @@ export function getNoteSlugs() {
             if (subMdxFiles.length > 0) result.set(dir.name, subMdxFiles);
         }
     });
+
     return result;
 }
 
 export function getNoteBySlug(slug: string[], fields: PostFieldsType[]) {
     const realSlug = slug[1].replace(/\.mdx$/, "");
-    const fullPath = join(noteDirectory, slug[0], `${realSlug}`);
+    const fullPath = join(noteDirectory, slug[0], `${realSlug}.mdx`);
+    // console.log(`slug is ${slug}`);
+    // console.log(`full path is ${fullPath}`);
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
 
@@ -54,10 +57,11 @@ export function getAllNotes(fields: PostFieldsType[] = []) {
     const result = new Map<string, PostType[]>();
 
     slugs.forEach((values, key, map) => {
+        // console.log(`key : ${key} values : ${values}`);
         result.set(
             key,
             values.map((val) => {
-                return getNoteBySlug([val[0], val[1]], fields);
+                return getNoteBySlug([key, val], fields);
             })
         );
     });
