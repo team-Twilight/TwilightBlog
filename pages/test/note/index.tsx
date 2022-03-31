@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getAllNotes } from "../../../lib/noteApi";
 import { PostType } from "../../../lib/postApi";
 
@@ -16,15 +17,22 @@ const Index: React.FC<PostIndexProps> = ({ notes }) => {
     return (
         <div>
             <h1>note index</h1>
-            {dirSlugs.map((dirSlugs, idx) => {
+            {dirSlugs.map((dirSlug, idx) => {
                 return (
                     <>
-                        <h2 key={idx}>{dirSlugs}</h2>
-                        <ol key={idx}>
-                            {notes[dirSlugs].map((note, idx) => {
-                                return <li key={idx}>{note.title}</li>;
-                            })}
-                        </ol>
+                        <h2 key={idx}>{dirSlug}</h2>
+
+                        {notes[dirSlug].map((note, i) => {
+                            return (
+                                <Link
+                                    href={`/test/note/${dirSlug}/${note.slug}`}
+                                    key={i}
+                                    passHref
+                                >
+                                    <h3>{note.title}</h3>
+                                </Link>
+                            );
+                        })}
                     </>
                 );
             })}

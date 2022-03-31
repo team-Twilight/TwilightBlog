@@ -1,9 +1,9 @@
-let str = "asd.mdx";
-console.log(str);
-console.log(str.replace(/\.mdx$/, ""));
+// let str = "asd.mdx";
+// console.log(str);
+// console.log(str.replace(/\.mdx$/, ""));
 
 // get staticpaths return 값 어떻게 되나 궁금해서
-// let list = ["aaa", "bbb", "ccc", "ddd", "eee"];
+let list = ["aaa", "bbb", "ccc", "ddd", "eee"];
 // let result = {
 //     paths: list.map((str) => {
 //         return {
@@ -14,7 +14,19 @@ console.log(str.replace(/\.mdx$/, ""));
 //     }),
 // };
 
-// console.log(result);
+let result = {
+    paths: list.map((str) => {
+        return list.map((str) => {
+            return {
+                params: {
+                    umm: str,
+                },
+            };
+        });
+    }),
+};
+
+console.log(result);
 // {
 //     paths: [
 //       { params: [Object] },
