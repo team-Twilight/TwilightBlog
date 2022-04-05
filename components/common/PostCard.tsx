@@ -10,10 +10,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <PostCardWrapper>
             <div className="og_image"></div>
             <div className="content">
-                <h3>{post.title}</h3>
+                <span>{post.title}</span>
                 <div>
                     <span>tags</span>
-                    <span>{post.date}</span>
+                    <span>{post.date.toISOString()}</span>
                 </div>
                 <div>{post.content}</div>
             </div>
@@ -23,7 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
 const PostCardWrapper = styled.div`
     display: flex;
-    height: 70px;
+    height: 80px;
 
     .og_image {
         flex-basis: 30%;
