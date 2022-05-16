@@ -1,11 +1,14 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { Navigation } from '../components/home/Header/Navigation/Navigation';
+import React from "react";
+import { Header } from "../components/home/Header/Header";
+import { Section } from "../components/home/Section/Section";
 
-const Home: NextPage = () => {
+const Home: React.FC = () => {
   return (
-    <Navigation/>
-  )
-}
+    <>
+      <Header />
+      <Section />
+    </>
+  );
+};
 
-export default Home
+export default Home;

@@ -4,11 +4,12 @@ import { css } from "@emotion/react";
 const menuTextStyle = css`
   font-family: "Roboto";
   font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 2rem;
   text-transform: capitalize;
   vertical-align: baseline;
+  color: #FFFFFF;
 `;
 
 export const MenuList = styled.div`
@@ -53,6 +54,7 @@ export const NavBar = styled.div`
 export const MenuButton = styled.button`
   all: unset;
   cursor: pointer;
+  padding: 0;
 
   a{
     all: unset;
@@ -64,5 +66,5 @@ export const HomeButton = styled.button`
   all: unset;
   cursor: pointer;
 
-  margin: 0.8rem;
+  margin-right : 20px;
 `;
