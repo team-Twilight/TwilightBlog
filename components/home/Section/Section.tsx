@@ -1,17 +1,30 @@
+import { PostItem } from "./PostItem/PostItem";
 import {
-    SectionContainer,
-    SectionWrap
-  } from "./Section.style";
-import { PostWrap } from "./PostWrap/PostWrap";
-import { StatusWrap } from "./StatusWrap/StatusWrap";
+  SectionContainer,
+  SectionWrap,
+  PostWrap,
+  StatusWrap,
+  SectionTitle,
+  PostArticle,
+} from "./Section.style";
 
 export const Section = () => {
-    return (
-        <SectionContainer>
-            <SectionWrap>
-                <PostWrap />
-                <StatusWrap />
-            </SectionWrap>
-        </SectionContainer>
-    )
-}
+  return (
+    <SectionContainer>
+      <SectionWrap>
+        <PostWrap>
+          <SectionTitle>RECENTLY POSTED</SectionTitle>
+          <PostArticle>
+              <PostItem/>
+              <PostItem/>
+              <PostItem/>
+              <PostItem/>
+          </PostArticle>
+        </PostWrap>
+        <StatusWrap>
+          <SectionTitle>POST STATUS</SectionTitle>
+        </StatusWrap>
+      </SectionWrap>
+    </SectionContainer>
+  );
+};
