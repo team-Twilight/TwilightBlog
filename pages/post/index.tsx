@@ -12,12 +12,13 @@ type PostIndexProps = {
     posts: PostType[];
 };
 const Index: React.FC<PostIndexProps> = ({ posts }) => {
+    console.log(posts)
     return (
         <div>
             <h1>this is index of test dir</h1>
             {posts.map((post, idx) => {
                 return (
-                    <Link href={`/test/post/${post.slug}`} key={idx} passHref>
+                    <Link href={`/post/${post.slug}`} key={idx} passHref>
                         <h3>{post.title}</h3>
                     </Link>
                 );
