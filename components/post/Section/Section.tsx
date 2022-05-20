@@ -11,7 +11,7 @@ import {
   AuthorLinks,
   AuthorLink,
 } from "./Section.style";
-
+import GiscusBox from "../../giscus/giscus";
 type PostType = {
   slug: string;
   title: string;
@@ -55,6 +55,7 @@ export const Section = ({ post }: PostsProps) => {
           <h2>{post.title}</h2>
           {post.content}
         </ContentsWrap>
+        <GiscusBox slug={post.slug}/>
       </SectionWrap>
     </SectionContainer>
   );
