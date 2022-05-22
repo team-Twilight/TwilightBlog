@@ -41,8 +41,8 @@ export const Contents = styled.div`
 export const Thumnail = styled.img`
   box-sizing: border-box;
 
-  width: 210px;
-  height: 150px;
+  width: 200px;
+  height: 134px;
   object-fit: contain;
   overflow: hidden;
   border-radius: 1rem;
@@ -59,8 +59,8 @@ export const Author = styled.div`
 export const AuthorImage = styled.img`
   box-sizing: border-box;
 
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   overflow: hidden;
   border-radius: 100%;
@@ -70,8 +70,8 @@ export const AuthorImage = styled.img`
 export const AuthorName = styled.span`
   ${titleStyle}
 
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 14px;
+  line-height: 16px;
 `;
 
 export const Summary = styled.div`
@@ -79,7 +79,7 @@ export const Summary = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.6rem;
+  gap: 0.4rem;
   padding: 0.4rem 0;
 `;
 
@@ -87,7 +87,7 @@ export const SummaryTitle = styled.h2`
   ${textStyle}
   font-weight: 900;
   font-size: 18px;
-  line-height: 20px;
+  line-height: 22px;
 `;
 
 export const SummarySub = styled.p`
@@ -98,7 +98,7 @@ export const SummarySub = styled.p`
   ${textStyle}
   font-weight: 500;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 22px;
 
   text-overflow: ellipsis;
   overflow: hidden;

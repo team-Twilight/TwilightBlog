@@ -1,0 +1,328 @@
+---
+title: "Next.js Blog 시작하기"
+excerpt: "Next.js Blog 시작하기"
+coverImage: "https://user-images.githubusercontent.com/51357635/169189316-2090c72d-241d-4aae-b321-ed5b7e2bdb29.png"
+date: "2022"
+author:
+    name: WoogLim
+    picture: "https://avatars.githubusercontent.com/u/51357635?s=400&u=36fd01b69ccd7729620c086927f9c0847ffdb0e1&v=4"
+ogImage:
+    url: "https://user-images.githubusercontent.com/51357635/169189316-2090c72d-241d-4aae-b321-ed5b7e2bdb29.png"
+---
+
+### 0. 시작 전 참고하면 좋은 지식들
+---
+- CSR(Client-Side-Rendering) vs SSR(Server-Side-Rendering) (feat. React를 중점으로)(https://velog.io/@longroadhome/FE-CSRClient-Side-Rendering-vs-SSRServer-Side-Rendering-feat.-React%EB%A5%BC-%EC%A4%91%EC%A0%90%EC%9C%BC%EB%A1%9C)
+- SSR(Server-Side-Rendering) 그리고 SSG(Static-Site-Generation) (feat. NEXT를 중심으로)(https://velog.io/@longroadhome/FE-SSRServer-Side-Rendering-%EA%B7%B8%EB%A6%AC%EA%B3%A0-SSGStatic-Site-Generation-feat.-NEXT%EB%A5%BC-%EC%A4%91%EC%8B%AC%EC%9C%BC%EB%A1%9C)
+
+### 1. next 및 react, react-dom 설치.
+---
+```TERMINAL
+npm install next react react-dom
+```
+- node_modules 생성되며 bin 폴더내 next 설치 확인
+
+### 2. package.json 내 개발 구문 추가
+---
+```TERMINAL
+ "scripts":{
+        "dev": "next dev"
+    }
+```
+- 해당 구문 사용전 반드시 현재 폴더에 pages 폴더를 추가하고 pages 폴더에 index 페이지를 생성한다.
+
+### 3. next 의 특징
+---
+- next의 가장 큰 특징은 react 프로젝트와 비교해 다른점이 있다. SSR 방식 이다.
+- react로 생성한 페이지에서 개발자 도구를 실행하면 현재 페이지의 response를 확인하면 App.js <div id = "root"></div> 구문이 확인될 것이다. CSR 방식으로 렌더링되기 때문에 현재 페이지의 본문을 도구에서 확인할 수 없다. 만일 도구에서 javascript 디버거를 해제하면 본문이 보이지 않을 것이다.
+- next의 경우 SSR 방식으로 전달되기 때문에 javascript 디버그를 해제하더라도 본문이 보인다. next는 react 의 구성요소를 사전에 렌더링한다. HTML이 로드되자마자 javascript 코드를 기다리지 않고 로드 후 실행되어 본문이 완성되기 때문에 SEO에 최적화되어있다. > HTML의 모든 컨텐츠를 크롤링하기 쉬워지므로.
+
+### 4. next의 개발, 운영 모드에서의 렌더링 방식
+---
+- #1 개발모드(npm run dev) : 서버에서 한번 브라우저에서 한번 렌더링된다. 만일 코드내 변경사항이 있을때 console.log 를 별도로 작성한 경우 서버 터미널에서 한번 브라우저 도구에서 한번 콘솔이 발생하는것을 확인할 수 있다. 브라우저에서 새로고침시 서버에 요청을하고 서버에서 HTML 페이지를 렌더링해 브라우저에 반환하고 브라우저에서 구성 요소를 렌더링 한다. 이때 서버 터미널 및 브라우저 콘솔을 보면 console.log가 표시된다.
+- #2 운영모드(build > start) : 빌드시 완전히 정적페이지로 렌더링 되기 때문에 운영모드로 실행시 더이상 서버쪽에 콘솔이 찍히는것은 볼 수없다.(서버에서 렌더링하지 않는다.) 이제 요청이 오면 서버는 빌드를 했기 때문에 더이상 렌더링하지 않고 정적 페이지를 응답한다.
+
+### 5. 페이지 추가와 라우터 설정
+---
+- react 라우터의 경우 <Route path="경로/파일명"> 을 지정하지만 next 는 파일시스템에 기반한 라우터로 pages 폴대 내부를 탐색하고 각 파일을 URL에 노출한다. about.js 의 경우 URL에 서버/about 만 검색하면 about.js를 자동으로 내보낸다.
+- [이 링크의 about.js, README.md 참조](https://github.com/team-Twilight/Blog-Sample/commit/863e4dd0fcbd9ce8e58810c32c497ed117e86f93)
+
+### 6. next/link 라이브러리 사용해 react의 장점 살리기
+---
+- 로컬환경의 개발모드로 브라우저에서 도구를 실행해 네트워크 메뉴를 보면 현재 페이지(localhost)에서 about 페이지로 이동한 경우 완전히 다른 페이지로 변화되는것을 확인할 수 있다.(서버측에 요청) 여기서 react 앱의 SPA페이지의 장점을 잃게 된다.
+- next에서도 클라이언트 측 탐색을 적용하기위해 컴포넌트를 재사용하면 되고 next/link 가 이를 지원한다. navigation을 구성하는 경우 클라이언트측에서 탐색하는 것을 확인할 수 있다. 더 이상 브라우저에서 서버측에 요청하지 않는다. 기본 페이지를 처음에 요청하는 경우 Link 로 연결된 페이지도 한꺼번에 응답으로 보내기 때문 더이상 서버측에 전체 문서를 요청하지 않는다. 또한 /about 경로로 접속할 수 있다. 반드시 메인 홈페이지에 link 연결을 선행적으로 해야한다.
+- [이 링크의 index.js, README.md 참조](https://github.com/team-Twilight/Blog-Sample/commit/863e4dd0fcbd9ce8e58810c32c497ed117e86f93)
+
+### 7. 컴포넌트 분리하기(상단 네비게이션 추가)
+---
+- next 는 파일 시스템 기반 라우터를 사용한다. 이 과정에서 pages 폴대내 파일은 자동으로 노출된다. 여기서 NavBar의 경우 pages 폴더에 존재하는 경우 페이지경로/NavBar 접속시 NavBar페이지로 이동된다. NavBar는 페이지 용도가 아닌 컴포넌트용으로 생성한 것으로, 브라우저에 노출되선 안된다. 때문에 pages 폴더가 아닌 별도의 폴더(현재는 components) 에 생성한다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/5023d4654f6df4b9ddb0ca8f322ba9d79f279177)
+
+### 8. 중복 태그 없애기 위한 템플릿 생성 app.js
+---
+- pages에 _파일명.확장자 생성 _로 시작하는것은 일반페이지가 아니다. react 구성 요소이며 페이지 구성 요소 이다. 즉 모든 페이지에서 사용될 수 있다. 해당 파일의 함수에서 매개변수로 Component, pageProps 를 받으며 현재 페이지 <Component> 에 props 를 전달하기 위해 스프레드 연산자(...)를 사용. (메모리 주소가 아닌 값 복사) _app.js 템플릿에 기반에 페이지가 생성되는것을 볼 수 있다.
+- _app.js는 새로 빌드가 필요하다. 서버를 다시 재기동해야함.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/7a2d91ac4e3ffdb9aa23f6c50fe10e838cc5613b)
+
+### 9. next/head 라이브러리 사용해 <head>태그에 메타데이터 설정하기 
+---
+- 현재 개발/운영 모드로 실행시 페이지 제목에 localhost로 표시될 것이다. 페이지의 ```<title>``` 메타데이터 정보는 ```<head>``` 태그내 저장되어 있어 메타데이터를 설정해야한다. 정적 HTML로 생성되어 해당 정보들은 검색 엔진(SEO)에서 사용될 것이므로 반드시 설정한다.
+- 서버에서 HTML 을 요청하지 않으며 메타데이터는 클라이언트측에서 렌더링된다.(정적으로 모두 클라이언트에게 넘어가기 때문.)
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/efb1e1e16aeef93a9a8c6ba28fffc27c04c5350e)
+
+### 10. 전역 스타일 설정하기
+---
+- styles 폴더를 생성후 globals.css 생성. 템플릿인 _app.js 에 추가해 전역적으로 사용하도록 한다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/57fa90413813bac88d7f64c63cab4ef64d40e92b)
+
+### 11. 개별 스타일 지정하기(className)
+---
+- 전역 스타일에 ul, li 등 태그를 대상으로 스타일 지정시 모든 페이지에 적용되는 문제점이 있다. 때문에 className을 설정하여 class로 스타일을 설정한다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/5a8dee218d343806a7c4dcde6ee926f36b0195b5)
+
+### 12. 컴포넌트 스타일(Styled JSX or CSS Module)
+---
+- 컴포넌트별 스타일을 지정하기 위해 라이브러리(Styled JSX or CSS Module 둘다 react 기본 라이브러리에 포함됨)을 사용하는것도 좋다. 적용할 컴포넌트(js파일)에 부모 태그 내부에 ```<style jsx>{``}</style>``` 안에 스타일을 지정해준다. 해당 스타일을 적용하기 위해 임의로 className을 생성해 해당 컴포넌트에 속하는 태그에 className으로 자동으로 적용해준다. 때문에 다른 페이지와 중복되지 않는 컴포넌트별 스타일을 설정할 수 있다. 즉 소위 CSS-in-JS 솔루션이다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/d785a925190c10544b5fdce22f49551b25f92dc5)
+- VS Code 마켓의 styled-jsx Syntax Highlighting or styled-jsx Language Server 를 설치 추천
+
+### 13. 리소스 관리하기
+---
+- public 폴더를 생성한다. 이 폴더 안에 넣은 모든 파일은 브라우저에 있는 그대로 제공된다. 이는 검색 엔진에 적용하는데 사용될 수 있다. enum 파일 생성시 User-agent: *(모든 검색 엔진이 모든 페이지에 엑세스) 을 기본 설정한다. 이미지(favicon 등), 비디오, 글꼴등을 이곳에 저장한다.
+- VS Code 마켓의 styled-jsx Syntax Highlighting or styled-jsx Language Server 설치 추천
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/0ca7b4cdc6aaf13b7ab23cca612e804f310c30a1)
+
+### 14. 게시물(Post) 페이지 추가하기
+---
+- pages 폴더내 posts 폴더를 생성하여 실험으로 js 파일을 만들어 해당 게시물로 이동해보자.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/657abd4cde8769b80f144d24c1533067e171fe87)
+
+### 15. 마크다운(Markdown) 형식의 게시물 추가(getStaticProps() 이용)
+---
+- content 폴더내 posts폴더(임의)를 생성하여 Markdown 형식으로 생성된 게시물을 추가한다.
+- 이후 로드하기 위해 getStaticProps() 함수를 이용한다. Next.js 페이지는 React의 구성요소이다. 때문에 props를 전달할 수 있다.
+### *getStaticProps()와 SSG, Static*
+- 단 개발모드에서 페이지 로드시 서버측에서 호출되며 getStaticProps()에 console을 찍으면 서버 터미널에서만 호출된다.(브라우저에서는 표시안됨)
+- 운영모드로 전환시 빌드하는 순간에 정적 페이지 생성중 getStaticProps가 표시되며 이를 사용한 first-post.js가 SSG로(꽉찬 원)으로 표시되는것을 확인할 수 있다. posts/first-post 가 (SSG) 로 생성된 것을 볼 수 있다. 
+```TERMINAL
+●  (SSG)     automatically generated as static HTML + JSON (uses getStaticProps)
+```
+- Static과 SSG의 차이는 JSON 데이터를 포함하는지에 결정된다. 정적인 요소를 포함하는 정적 페이지를 SSG(신세계X Static-Site-Generation O)라고 한다. 둘은 이 부분만 빼면 유사하다.
+- 빌드후 start 시 브라우저에서 서버측에서 사전 렌더링을 했기 때문에 더 이상 표시한 console이 표시되지 서버측에 표시되지 않으며 클라이언트측에서 탐색을 진행한다. 브라우저(클라이언트 측) 도구에서 네트워크 메뉴의 전체요청을 보면 홈페이지(포스트와 연관되지 않은)로 이동할 때 first-post.json이 함께 로드된 것을 확인할 수 있다. > 클라이언트측에서 이 json 파일에서 props를 추출하여 페이지에 표시한다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/e94e7f0e9e660f831bedd57f49ac62b3d5497cf7)
+
+### 16. 파일을 읽어오는 방법
+---
+- content 폴더내 posts폴더에 값을 로드하기 위한 json 파일을 생성한다. 기본적으로(라이브러리 미사용시) Node.js의 fs 모듈을 이용할 수 있다.( 'fs/promises'의 readFile 이용 )
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/823a1f265af3cfe109e16c1ebf96b6cf7b795ed1)
+
+### 17. 관심 분리 모듈화하기
+---
+- lib 폴더를 생성후 일부 모듈을 관리한다.(파일 읽어오기 등) 파일을 읽어오는 부분을 모듈화 한다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/bfaf47c9eb64ac4dea4009fbe2281e0c20249064)
+
+### 18. 마크다운 렌더링하기
+---
+- 마크다운 구문 분석 후 HTML로 변환하기 MDX 등의 라이브러리를 적용할 수 있고 현재 프로젝트에서는 Marked 모듈을 사용할 것이므로 package.json에 해당 라이브러리를 의존성을 추가한다.
+- posts모듈에서 Marked 라이브러리를 이용해 HTML 문서로 변환 후 return한다. posts의 post 파일에서 해당 모듈을 호출해 값을 반환받고 dangerouslySetInnerHTML 등으로 HTML을 삽입할 수 있다.
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/7b58c11b84a8a7f24c76b9a452947b1aec9673c3)
+
+### 19. 포스트 제목 추가하기
+---
+- md 파일에서 --- --- 블록 사이에 YAML 형식의 메타데이터를 추가하고 추출한다. 이 문구를 읽으려면 수정이 필요하다. [gray-matter 라이브러리]((https://github.com/jonschlinkert/gray-matter#readme)) 등을 적용해도 좋다.
+- 다음과 같이 md을 작성하는 경우 아래와 같이 객체로 변환된다.
+```text
+---
+title: Hello
+slug: home
+---
+<h1>Hello world!</h1>
+```
+```text
+{
+  content: '<h1>Hello world!</h1>',
+  data: { 
+    title: 'Hello', 
+    slug: 'home' 
+  }
+}
+```
+- 다음을 입력해 설치를 진행한다.
+```TERMINAL
+npm install gray-matter 
+```
+- 다음과 같이 posts 모듈에 구문을 작성한다.
+```js
+import matter from "gray-matter";
+
+const source = await readFile(`content/posts/${slug}.md`, "utf8");
+  const {
+    data: { date, title },
+    content,
+  } = matter(source);
+  const body = marked(content);
+  return { date, title, body };
+```
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/ab3a69c0b937da1ebf28ae05b211f2325e3e01c4)
+
+### 20. 동적 경로와 getStaticPath()
+---
+- pages/posts 폴더내 ```first-post.js``` 를 ```[slug].js``` 로 변경한다. 저장시 페이지에서 "getStaticPaths 가 필요합니다 동적 SSG 페지용" 에러가 발생한다. 따라서 getStaticPaths 기능을 추가해야한다.
+- getStaticPaths 함수의 반환 내용은 다음과 같다.
+```js
+export async function getStaticPaths(){
+  // 어떤 경로인지 next에 공유
+  // paths 에 유효한 경로 객체를 배열 형태로 선언하고
+  // paths 에 없는 유효한 경로가 아닌 경우 fallback이 실행
+  // 미리 경로를 지정한 후 스프레드 연산자로 객체 형태를 저장하는 배열을 복사해 붙여넣는게 좋다
+  return {
+    paths: [
+      { params: { slug: 'first-post' }},
+      { params: { slug: 'second-post' }},
+    ],
+    fallback: false,
+  }
+  // paths 내 배열을 순회하여 유효한 페이지라면 일치하는 경로를 전달
+  // 유효한 경로가 없다면 fallback 실행
+}
+```
+- 이후 getStaticProps 함수가 호출된다 이때 매개변수는 context 이다. {} 로 객체내 값만 추출
+```js
+export async function getStaticProps({params: {slug}}) {
+  console.log("[FirstPostPage] getStaticProps()", slug);
+  const post = await getPost(slug);
+  return {
+    props: { post },
+  };
+}
+```
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/f84e7eeba430df283ccc07c603881185c6db7040)
+
+### 21. getStaticPaths() 함수에 자동으로 path 추가
+---
+- post 모듈에 ```getSlugs()``` 함수를 생성. export 한다 해당 함수에서는 fs라이브러리 ```readdir()``` 함수를 통해 경로내 일부 확장장의 파일을 모두 읽어온다. 이를 호출한 ```[slug].js``` 의 ```getStaticPaths()``` 함수로 ```content/posts``` 폴더내 파일을 읽어 동적 경로를 설정하고 getStaticProps()에 담아 해당 페이지의 props 를 내포해 화면에 보여준다.
+
+```js
+// posts.js
+export async function getSlugs() {
+  const suffix = '.md';
+  const files = await readdir("content/posts");
+  // 파일 배열 추출 후 필터 작성 후 md 파일만 읽어오고 여기서 .md 확장자를 뺀 파일명의 배열을 반환한다.
+  return files
+    .filter((file) => file.endsWith(suffix))
+    .map((file) => file.slice(0, -suffix.length));
+    
+}
+```
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/8ecb228d2ebc080be8a07abe5203c421b3d631c2)
+
+### 22. 게시물 나열하기
+---
+- 현재는 첫번째 게시물만 수동적으로 보여주고있다. 이를 매번 동적으로 추가해보도록하자. posts.js 에 게시물의 정보를 가져오는 getPosts()함수를 작성한다.
+```js
+// posts.js 
+
+export async function getPosts() {
+  const slugs = await getSlugs(); // conetent/posts 내 파일 명 문자열 배열
+  const posts = [];
+  for(const slug of slugs){
+    const post = await getPost(slug); // 각 문자열에 대응하는 YAML 정보 추출
+    posts.push({ slug, ...post }); // slug(경로)를 내포함과 동시에 post 정보를 복사
+  }
+  return posts;
+}
+```
+- ```index.js``` 에서 ```getPosts()``` 를 호출해 게시물 정보를 받아오고 JSX 요소에 해당 게시물에 대한 정보를 적재한다.
+```js
+export async function getStaticProps() {
+  const posts = await getPosts();
+  return {
+    props: { posts },
+  };
+}
+
+function HomePage({ posts }) {
+  console.log("[HomePage] render", posts);
+  return (
+    <>
+      <Head>
+        <title>Noob's Blog</title>
+        <meta name="description" value="This is Sample Blog" />
+      </Head>
+      <main>
+        <h1>Team Noob's Blog</h1>
+        <ul>
+          {posts.map((post) => (
+            <li key={post.slug}>
+              <Link href={`/posts/${post.slug}`}>
+                <a>{post.title}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </>
+  );
+}
+```
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/63009009451c960a2592ae599e692084d8102e7a)
+
+
+### 23. 운영모드에서의 동적 경로
+---
+- ```npm run build```를 해보자.
+```TERMINAL
+# 현재 홈페이지는 단순한 Static 페이지가 아닌 SSG페이지임을 볼 수 있다.
+왜냐하면 pages/ 폴더의 index.js 에서 getStaticProps() 기능을 추가했기때문이다.
+# 또한 아래의 게시물/[슬러그] 로 SSG 유형이며 세 페이지로 분리된것을 볼 수 있다.
+각 게시물에 하나씩 생성됨. 여러 페이지를 자동으로 생성한다.
+# 이 과정은 빌드 시간에 발생한다.
+Page                                       Size     First Load JS
+┌ ● /                                      503 B          81.8 kB
+├   /_app                                  0 B            81.3 kB
+├ ○ /404                                   193 B          81.5 kB
+├ ○ /about                                 343 B          81.6 kB
+└ ● /posts/[slug] (561 ms)                 414 B          81.7 kB
+    ├ /posts/first-post
+    ├ /posts/second-post
+    └ /posts/third-post
+
+# 처음 로그를 보면 getStaticProps() 함수가 3번 호출된것을 볼 수 있다.
+먼저 getStaticPaths() 함수를 호출하고 반환하는 각 경로에대해 getStaticProps 함수를 호출한다. 해당 경로의 Params를 전달하고(현재 프로젝트에서는 slug) 각 경로마다 getStaticProps 후에 콤포넌트 렌더 함수를 호출한다. 각 페이지는 병렬로 생성된다(next에 의해) 페이지 렌더 순서는 예측 불가능하다.
+info  - Collecting page data...
+info  - Generating static pages (0/7)
+info  - Generating static pages (1/7)
+[AboutPage] render
+info  - Generating static pages (3/7)
+[FirstPostPage] getStaticProps() first-post
+[FirstPostPage] getStaticProps() third-post
+[FirstPostPage] getStaticProps() second-post
+
+# 즉 동적 경로는 정적 HTML 파일을 생성한다 getStaticPaths 에서 fallback을 반환하지 않는한. 정적 페이지를 구성하고 이를 웹 페이지에 배포한다.
+```
+
+### [인터렉션 작업 1 : 다크 모드 추가]
+---
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/ea832a9fd49a56abd240d2d6c2cadc9aebf9ea7b)
+- 빌드시 ```[ThemeSwitch] darkMode: false``` 로그가 출력되는것을 볼 수 있다. useState 적용시 서버에서 먼저 렌더링 된다. 모든 페이지에서 사용되는 컴포넌트로 로그도 같이 올라가며 이후 다시 서버에서 렌더링 하지않으며 클라이언트 측에서 탐색을 진행한다. 먼저 정적 HTML 이 생성되고 이벤트가 발생하는 경우만 react 구성 요소가 현재 HTML에 적용되는 방식이다.
+
+### [로컬 스토리지 활용하기]
+---
+- Dark Mode 상태에서 페이지 새로고침을 하면 다시 Light Mode로 변경된다. local storage 를 이용해 새로고침해도 적용한 모드가 적용되도록 변경한다.
+- 다만 기억해야할것이 있다. SSG SSR 방식임을 알아야한다 localStorage API는 클라이언트 브라우저에 내포된 함수이다. 서버측은 Node.js localStorage라는 기능이 없다. 때문에 ```Error localStorage is not defined``` 에러가 발생한다. 우선 브라우저에서 localStorage 의 타입을 보면 ```Object```이다. 따라서 다음과 같이 코드하나를 추가한다. 이는 서버측에서 대응할 수 있는 코드이다.
+```js
+function loadDarkMode() {
+    if (typeof localStorage === 'undefined') {
+        // 서버
+        return false;
+    }
+    // 클라이언트
+    const value = localStorage.getItem('darkMode');
+    return (value === null) ? false : JSON.parse(value);
+}
+```
+- 그리고 경고가 발생하는것을 볼 수 있다. 서버에서는 darkMode를 항상 false로 설정하는데, 이후 react 구성요소들이 클라이언트 측에서 렌더링 될 때 문제가 발생한다. 바로 다크모드를 실행한 후 인데, 이때는 darkMode가 true이다. 초기 정적 HTML에서는 버튼 안의 텍스트는 ```Dark Mode``` 이고 브라우저에서 렌더링 되며 텍스트는 ```Light Mode``` 라고 나타난다. 브라우저에서 렌더링시 react 구성 요소들이 DOM을 탐색하는 과정에서 경고를 발생시킨다. 이는 에러가 아닌 경고이므로 button DOM 태그내 해당 구문을 추가한다.
+```html
+<button onClick={handleClick} suppressHydrationWarning>{text}</button>
+```
+- [이 링크 참조](https://github.com/team-Twilight/Blog-Sample/commit/279874097139628e5febcdfef6299d583c322206)

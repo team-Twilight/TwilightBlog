@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   NavBar,
+  DropDownMenu,
   LogoImage,
   MenuList,
   MenuButton,
@@ -9,7 +10,6 @@ import {
 
 export const Navigation = () => {
   return (
-    <>
       <NavBar>
         <HomeButton>
           {/* 로고 이미지를 next/Image 쓸지 생각중 */}
@@ -38,6 +38,5 @@ export const Navigation = () => {
           </MenuButton>
         </MenuList>
       </NavBar>
-    </>
   );
 };

@@ -16,7 +16,7 @@ export const PostItem = () => {
     <PostItemWrap>
       <Contents>
         <Author>
-          <AuthorImage src="https://dummyimage.com/32x32" />
+          <AuthorImage src="https://dummyimage.com/24x24" />
           <AuthorName>WoogLim</AuthorName>
         </Author>
         <Summary>
@@ -25,7 +25,7 @@ export const PostItem = () => {
           <PostItemDate>April 19 · 2022</PostItemDate>
         </Summary>
       </Contents>
-      <Thumnail src="https://dummyimage.com/210x150" />
+      <Thumnail src="https://dummyimage.com/200x134" />
     </PostItemWrap>
   );
 };
