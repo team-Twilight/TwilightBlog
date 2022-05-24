@@ -2,29 +2,29 @@ import React from "react";
 import Link from "next/link";
 import markdownToHtml from "../../lib/markdownToHtml";
 import {
-    getAllPosts,
-    getPostSlugs,
-    postsDirectory,
-    PostType,
+  getAllPosts,
+  getPostSlugs,
+  postsDirectory,
+  PostType,
 } from "../../lib/postApi";
+// Layout
+import { Bottom } from "../../components/common/Bottom/Bottom";
+import { Header } from "../../components/common/Header/Header";
+import { PostListLayout } from "../../layouts/PostListLayout";
 
 type PostIndexProps = {
-    posts: PostType[];
+  posts: PostType[];
 };
+    
 const Index: React.FC<PostIndexProps> = ({ posts }) => {
-    console.log(posts)
-    return (
-        <div>
-            <h1>this is index of test dir</h1>
-            {posts.map((post, idx) => {
-                return (
-                    <Link href={`/post/${post.slug}`} key={idx} passHref>
-                        <h3>{post.title}</h3>
-                    </Link>
-                );
-            })}
-        </div>
-    );
+  console.log(posts);
+  return (
+    <>
+      <Header />
+      <PostListLayout posts={posts} />
+      <Bottom />
+    </>
+  );
 };
 
 // export const getServerSideProps = async () => {
@@ -38,22 +38,22 @@ const Index: React.FC<PostIndexProps> = ({ posts }) => {
 // };
 
 export const getStaticProps = async () => {
-    const posts = getAllPosts([
-        "author",
-        "title",
-        "date",
-        "slug",
-        "author",
-        "content",
-        "ogImage",
-        "coverImage",
-    ]);
-    // const content = await markdownToHtml(posts)
-    return {
-        props: {
-            posts: posts,
-        },
-    };
+  const posts = getAllPosts([
+    "author",
+    "title",
+    "date",
+    "slug",
+    "author",
+    "content",
+    "ogImage",
+    "coverImage",
+  ]);
+  // const content = await markdownToHtml(posts)
+  return {
+    props: {
+      posts: posts,
+    },
+  };
 };
 
 export default Index;

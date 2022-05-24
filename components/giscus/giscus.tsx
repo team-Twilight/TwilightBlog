@@ -5,9 +5,9 @@ const GiscusBox = ({ slug }: { slug: string }) => {
     <>
       <Giscus
         repo="team-Twilight/BlogDiscussionTest"
-        repoId={process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID}
+        repoId="BlogDiscussionTest"
         category="General"
-        categoryId={process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID}
+        categoryId="BlogDiscussionTest"
         mapping="pathname"
         term={slug}
         reactionsEnabled="1"

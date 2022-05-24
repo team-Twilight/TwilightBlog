@@ -18,4 +18,5 @@ export const HeaderWrap = styled.div`
 
   background: #6c5ce7;
   border-bottom: 3px solid #000000;
+  z-index: 10;
 `;

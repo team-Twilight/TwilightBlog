@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   SectionContainer,
   SectionWrap,
@@ -10,20 +9,9 @@ import {
   PostDate,
   AuthorLinks,
   AuthorLink,
-} from "../components/post/Section/Section.style";
+} from "./PostLayout.style";
 import GiscusBox from "../components/giscus/giscus";
-type PostType = {
-  slug: string;
-  title: string;
-  date: Date;
-  author: {
-    name: string;
-    picture: string;
-  };
-  content: string;
-  ogImage: string;
-  coverImage: string;
-};
+import { PostType } from "../lib/postApi"
 
 type PostsProps = {
   post: PostType;
